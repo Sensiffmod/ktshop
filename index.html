@@ -20,7 +20,7 @@
             min-height: 100vh;
         }
 
-        /* Đống hiệu ứng chữ Neon */
+        /* Hiệu ứng chữ Neon */
         .neon-text {
             color: #00f0ff;
             text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff, 0 0 20px #00a8ff;
@@ -67,7 +67,7 @@
 
         /* 2. GIAO DIỆN CHÍNH (MAIN CONTENT) */
         #main-content {
-            display: none; /* Ẩn lúc đầu, hiện sau khi đếm ngược xong */
+            display: none;
             opacity: 0;
             transition: opacity 0.8s ease;
             padding: 40px 20px 100px 20px;
@@ -162,7 +162,7 @@
         /* 3. BẢN QUYỀN CUỐI TRANG */
         footer {
             text-align: center;
-            margin-top: 5px;
+            margin-top: 40px;
             padding: 20px;
             color: #45a29e;
             font-size: 0.85rem;
@@ -195,11 +195,6 @@
             transform: scale(1.1);
         }
 
-        .zalo-trigger-btn img {
-            width: 35px;
-            height: 35px;
-        }
-
         /* Khung hiển thị thông tin khi nhấn vào */
         .zalo-popup {
             display: none;
@@ -210,36 +205,42 @@
             border: 1px solid #0068ff;
             border-radius: 10px;
             padding: 15px;
-            width: 280px;
+            width: 250px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             animation: fadeInUp 0.3s ease;
         }
 
         .zalo-popup h4 {
             color: #0068ff;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 1rem;
             border-bottom: 1px solid #1f2833;
             padding-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .zalo-item {
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-
-        .zalo-item span {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
             color: #c5c6c7;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
+        /* Chỉnh sửa nút "tại đây" màu xanh đẹp mắt */
         .zalo-item a {
             color: #00f0ff;
             text-decoration: none;
-            word-break: break-all;
+            font-weight: bold;
+            border-bottom: 1px dashed #00f0ff;
+            transition: color 0.2s;
         }
 
         .zalo-item a:hover {
-            text-decoration: underline;
+            color: #ffffff;
+            border-bottom: 1px solid #ffffff;
         }
 
         /* Keyframes Animations */
@@ -253,7 +254,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Giao diện Mobile */
+        /* Responsive */
         @media (min-width: 600px) {
             .product-card {
                 flex-direction: row;
@@ -267,14 +268,14 @@
 </head>
 <body>
 
-    <!-- MÀN HÌNH ĐẾM NGƯỢC KHI VÀO WEB -->
+    <!-- MÀN HÌNH ĐẾM NGƯỢC -->
     <div id="intro-screen">
         <div class="logo-main neon-text">FFxm</div>
         <div class="status-loading">Đang cấu hình hệ thống setting hack Free Fire<br>& cập nhật mod mới nhất...</div>
         <div class="countdown-number" id="countdown-timer">10</div>
     </div>
 
-    <!-- GIAO DIỆN CHÍNH SẼ HIỆN RA SAU 10 GIÂY -->
+    <!-- GIAO DIỆN CHÍNH -->
     <div id="main-content">
         <header>
             <h1 class="neon-text">FFxm</h1>
@@ -330,40 +331,36 @@
             </div>
         </main>
 
-        <!-- BẢN QUYỀN CUỐI TRANG -->
+        <!-- BẢN QUYỀN -->
         <footer>
             Bản quyền KT GROUP VN 2026
         </footer>
     </div>
 
-    <!-- BONG BÓNG LIÊN HỆ ZALO BÊN TRÁI -->
+    <!-- BONG BÓNG LIÊN HỆ -->
     <div class="zalo-bubble-container">
-        <!-- Khung hiện thông tin (Popup) -->
+        <!-- Khung hiển thị rút gọn dùng chữ "tại đây" -->
         <div class="zalo-popup" id="zaloPopup">
             <h4>HỖ TRỢ & CỘNG ĐỒNG</h4>
             <div class="zalo-item">
-                <span>💬 <b>Zalo Admin:</b> </span>
-                <a href="tel:0397208110">0397208110</a>
+                💬 Zalo Admin: <a href="https://zalo.me/0397208110" target="_blank">tại đây</a>
             </div>
             <div class="zalo-item">
-                <span>👥 <b>Cộng đồng:</b> </span>
-                <br>
-                <a href="https://zalo.me/g/bgufpb354" target="_blank">https://zalo.me/g/bgufpb354</a>
+                👥 Cộng đồng: <a href="https://zalo.me/g/bgufpb354" target="_blank">tại đây</a>
             </div>
         </div>
         
         <!-- Nút Tròn Nhấp Vào -->
         <div class="zalo-trigger-btn" onclick="toggleZaloPopup()">
-            <!-- Sử dụng tạm icon text Zalo nếu không có ảnh, hoặc ảnh SVG dưới đây -->
             <svg viewBox="0 0 24 24" width="32" height="32" fill="#fff">
                 <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.35 3.01.97 4.32l-1.35 4.05a.75.75 0 0 0 .94.94l4.05-1.35c1.31.62 2.78.97 4.32.97 5.52 0 10-4.48 10-10S17.52 2 12 2zm4.5 12.5c-.2.5-.8 1-1.3 1.1-.4.1-.9.2-2.5-.4-2.1-.8-3.5-3-3.6-3.1-.1-.1-.8-1-1-1.4-.2-.5 0-.8.2-1 .2-.2.4-.4.6-.6.2-.2.3-.3.4-.5.1-.2 0-.4-.1-.6-.1-.2-.6-1.5-.8-2-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.7.4-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.2-.5 1.4-1 .2-.5.2-1 .1-1.1-.1-.1-.3-.2-.6-.3z"/>
             </svg>
         </div>
     </div>
 
-    <!-- XỬ LÝ LOGIC ĐẾM NGƯỢC VÀ POPUP -->
+    <!-- SCRIPT ĐIỀU KHIỂN -->
     <script>
-        // Xử lý bộ đếm ngược 10 giây
+        // Màn hình đếm ngược 10s
         let count = 10;
         const countdownTimer = document.getElementById('countdown-timer');
         const introScreen = document.getElementById('intro-screen');
@@ -375,12 +372,8 @@
 
             if (count <= 0) {
                 clearInterval(interval);
-                
-                // Ẩn màn hình intro
                 introScreen.style.opacity = '0';
                 introScreen.style.visibility = 'hidden';
-                
-                // Hiện màn hình chính
                 mainContent.style.display = 'block';
                 setTimeout(() => {
                     mainContent.style.opacity = '1';
@@ -388,7 +381,7 @@
             }
         }, 1000);
 
-        // Xử lý ẩn hiện Bong bóng Zalo
+        // Ẩn hiện popup Zalo
         function toggleZaloPopup() {
             const popup = document.getElementById('zaloPopup');
             if (popup.style.display === 'block') {
@@ -398,7 +391,7 @@
             }
         }
 
-        // Đóng popup Zalo nếu bấm trượt ra ngoài máy tính
+        // Bấm ra ngoài để đóng popup
         window.addEventListener('click', function(e) {
             const container = document.querySelector('.zalo-bubble-container');
             const popup = document.getElementById('zaloPopup');
