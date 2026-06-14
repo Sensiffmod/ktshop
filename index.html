@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KT SHOP - Cửa Hàng Công Nghệ Hàng Đầu</title>
-    <!-- Chèn Google Fonts để lấy font chữ hiện đại -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome để dùng các icon như điện thoại, user, card... -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* === PHẦN CSS TOÀN CỤC === */
@@ -18,6 +16,7 @@
             --text-color: #c5c6c7;
             --text-light: #ffffff;
             --accent-purple: #7f00ff;
+            --price-color: #ffb830;
         }
 
         * {
@@ -38,7 +37,7 @@
             color: inherit;
         }
 
-        /* === HEADER & NAVIGATION === */
+        /* === HEADER === */
         header {
             background: rgba(31, 40, 51, 0.8);
             backdrop-filter: blur(10px);
@@ -64,6 +63,7 @@
             background: linear-gradient(45deg, var(--primary-neon), var(--accent-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            cursor: pointer;
         }
 
         .nav-links {
@@ -72,14 +72,26 @@
             gap: 20px;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover, .breadcrumb a:hover {
             color: var(--primary-neon);
+        }
+
+        /* === BREADCRUMB (ĐƯỜNG DẪN LIÊN KẾT) === */
+        .breadcrumb {
+            margin-top: 90px;
+            padding: 10px 5%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0.9rem;
+        }
+        .breadcrumb span {
+            color: var(--text-light);
         }
 
         /* === HERO BANNER === */
         .hero {
-            margin-top: 80px;
-            padding: 60px 5%;
+            padding: 40px 5% 60px 5%;
             text-align: center;
             background: radial-gradient(circle at center, rgba(127,0,255,0.15) 0%, rgba(11,12,16,1) 70%);
         }
@@ -88,6 +100,7 @@
             font-size: 2.5rem;
             color: var(--text-light);
             margin-bottom: 15px;
+            text-transform: uppercase;
         }
 
         .hero p {
@@ -105,22 +118,18 @@
             box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
             transition: 0.3s;
             display: inline-block;
+            cursor: pointer;
         }
 
-        .btn-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
-        }
-
-        /* === DANH MỤC SẢN PHẨM === */
+        /* === BỐ CỤC CHUNG === */
         .sections-container {
-            padding: 40px 5%;
+            padding: 20px 5%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: var(--text-light);
             margin-bottom: 30px;
             display: flex;
@@ -128,8 +137,13 @@
             gap: 10px;
         }
 
-        .section-title i {
+        .section-badge {
+            background: rgba(0, 242, 254, 0.1);
             color: var(--primary-neon);
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 242, 254, 0.3);
         }
 
         .grid-layout {
@@ -139,7 +153,7 @@
             margin-bottom: 50px;
         }
 
-        /* === KIỂU DÁNG CARD NEON === */
+        /* === THIẾT KẾ CARD SẢN PHẨM === */
         .product-card {
             background-color: var(--card-bg);
             border-radius: 15px;
@@ -147,6 +161,8 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: 0.3s;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-card:hover {
@@ -158,19 +174,24 @@
         .card-img {
             width: 100%;
             height: 180px;
+            object-fit: cover;
+            background: #111;
+        }
+
+        .card-img-placeholder {
+            width: 100%;
+            height: 180px;
             background: #111;
             display: flex;
             align-items: center;
             justify-content: center;
             color: rgba(255,255,255,0.1);
             font-size: 3rem;
-            position: relative;
         }
 
-        /* Nhãn badge nhỏ */
         .badge-container {
             position: absolute;
-            bottom: 10px;
+            top: 10px;
             left: 10px;
             display: flex;
             gap: 5px;
@@ -180,52 +201,66 @@
             font-size: 0.75rem;
             padding: 3px 8px;
             border-radius: 5px;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             color: var(--primary-neon);
             border: 1px solid var(--primary-neon);
         }
 
         .card-body {
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .card-body h3 {
             color: var(--text-light);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 10px;
+            min-height: 44px;
         }
 
         .card-body p {
             font-size: 0.9rem;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #8f9499;
+            flex-grow: 1;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--price-color);
+            margin-bottom: 15px;
         }
 
         .btn-view {
             display: block;
             text-align: center;
-            background: rgba(0, 242, 254, 0.1);
+            background: rgba(0, 242, 254, 0.05);
             color: var(--primary-neon);
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             font-weight: 600;
-            border: 1px solid rgba(0, 242, 254, 0.3);
+            border: 1px solid rgba(0, 242, 254, 0.2);
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .product-card:hover .btn-view {
             background: linear-gradient(45deg, var(--secondary-neon), var(--primary-neon));
             color: #000;
+            border-color: transparent;
         }
 
-        /* === KHỐI LIÊN HỆ GẤP === */
+        /* === KHỐI LIÊN HỆ === */
         .support-box {
             background: linear-gradient(135deg, rgba(31, 40, 51, 1) 0%, rgba(127, 0, 255, 0.1) 100%);
             border-radius: 15px;
             padding: 30px;
             text-align: center;
             border: 1px solid rgba(127, 0, 255, 0.3);
-            margin-bottom: 60px;
+            margin: 40px 0 60px 0;
         }
 
         .support-box h2 {
@@ -237,7 +272,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: #25d366; /* Màu xanh nổi bật */
+            background: #25d366;
             color: #fff;
             padding: 12px 25px;
             border-radius: 8px;
@@ -246,7 +281,7 @@
             font-size: 1.1rem;
         }
 
-        /* === FOOTER CHÂN TRANG === */
+        /* === FOOTER === */
         footer {
             background-color: #050608;
             padding: 40px 5% 20px 5%;
@@ -288,7 +323,6 @@
             color: #666;
         }
 
-        /* === NÚT ZALO FLOAT (GÓC MÀN HÌNH) === */
         .zalo-float {
             position: fixed;
             bottom: 20px;
@@ -304,168 +338,201 @@
             align-items: center;
             gap: 8px;
         }
+
+        /* Ẩn nội dung bổ trợ lúc ban đầu */
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
 
-    <!-- THANH ĐIỀU HƯỚNG BAN ĐẦU -->
     <header>
         <nav class="navbar">
-            <div class="logo">KT SHOP</div>
+            <div class="logo" onclick="showPage('home')">KT SHOP</div>
             <ul class="nav-links">
-                <li><a href="#">Trang chủ</a></li>
-                <li><a href="#san-pham">Sản phẩm</a></li>
+                <li><a href="#" onclick="showPage('home')">Trang chủ</a></li>
                 <li><a href="tel:0397208110">Liên hệ</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- KHỐI BANNER CHÀO MỪNG -->
-    <section class="hero">
-        <h1>HỖ TRỢ KÉO TÂM IOS & ANDROID</h1>
-        <p>Khám phá các danh mục sản phẩm đa dạng, dịch vụ phần mềm uy tín chất lượng, cập nhật liên tục 24/7 tại ktshop.</p>
-        <a href="#san-pham" class="btn-cta">Khám Phá Ngay</a>
-    </section>
+    <div class="breadcrumb">
+        <a href="#" onclick="showPage('home')">Trang chủ</a> / <span id="current-crumb">Danh mục tổng hợp</span>
+    </div>
 
-    <!-- KHỐI NỘI DUNG CHÍNH -->
-    <main class="sections-container" id="san-pham">
-        
-        <div class="section-title">
-            <i class="fa-solid : fa-layer-group"></i>
-            <h2>DANH MỤC SẢN PHẨM</h2>
-        </div>
 
-        <!-- GRID DANH SÁCH CÁC SẢN PHẨM Y NHƯ TRONG VIDEO -->
-        <div class="grid-layout">
-            
-            <!-- Sản phẩm 1 -->
-            <div class="product-card">
-                <div class="card-img">
-                    <i class="fa-brand : fa-apple"></i> <!-- Thay bằng thẻ <img> nếu bạn có ảnh -->
-                    <div class="badge-container">
-                        <span class="badge">UY TÍN</span>
-                        <span class="badge">TỰ ĐỘNG</span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h3>HỖ TRỢ KÉO TÂM IOS</h3>
-                    <p>Danh mục chọn lọc, cập nhật liên tục bản mới nhất.</p>
-                    <a href="#" class="btn-view">Xem sản phẩm</a>
-                </div>
+    <div id="page-home">
+        <section class="hero">
+            <h1>HỖ TRỢ CÔNG NGHỆ GAME DI ĐỘNG</h1>
+            <p>Chuyên cung cấp tài khoản game, dịch vụ phần mềm tối ưu hệ thống uy tín chất lượng, cập nhật liên tục 24/7 tại ktshop.</p>
+            <div class="btn-cta" onclick="showPage('ios-category')">Xem Ngay Tiện Ích</div>
+        </section>
+
+        <main class="sections-container">
+            <div class="section-title">
+                <i class="fa-solid : fa-layer-group"></i>
+                <h2>DANH MỤC CƠ BẢN</h2>
             </div>
 
-            <!-- Sản phẩm 2 -->
-            <div class="product-card">
-                <div class="card-img">
-                    <i class="fa-solid : fa-shirt"></i>
-                    <div class="badge-container">
-                        <span class="badge">UY TÍN</span>
-                        <span class="badge">24/7</span>
+            <div class="grid-layout">
+                <div class="product-card">
+                    <div class="card-img-placeholder">
+                        <i class="fa-brands : fa-apple"></i>
+                        <div class="badge-container">
+                            <span class="badge">UY TÍN</span>
+                            <span class="badge">TỰ ĐỘNG</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>HỖ TRỢ KÉO TÂM IOS</h3>
+                        <p>Tổng hợp 7 sản phẩm chuyên dụng, an toàn tuyệt đối cho thiết bị iOS.</p>
+                        <div class="btn-view" onclick="showPage('ios-category')">Xem sản phẩm</div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h3>MOD SKIN IOS</h3>
-                    <p>Danh mục chọn lọc, cập nhật liên tục bản mới nhất.</p>
-                    <a href="#" class="btn-view">Xem sản phẩm</a>
-                </div>
-            </div>
 
-            <!-- Sản phẩm 3 -->
-            <div class="product-card">
-                <div class="card-img">
-                    <i class="fa-brand : fa-android"></i>
-                    <div class="badge-container">
-                        <span class="badge">TỰ ĐỘNG</span>
-                        <span class="badge">24/7</span>
+                <div class="product-card">
+                    <div class="card-img-placeholder">
+                        <i class="fa-brands : fa-android"></i>
+                        <div class="badge-container">
+                            <span class="badge">MỚI NHẤT</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>HỖ TRỢ KÉO TÂM ANDROID</h3>
+                        <p>Danh mục công cụ hỗ trợ mượt mà dành cho các dòng máy Android.</p>
+                        <div class="btn-view">Xem sản phẩm</div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h3>HỖ TRỢ KÉO TÂM ANDROID</h3>
-                    <p>Danh mục chọn lọc, cập nhật liên tục bản mới nhất.</p>
-                    <a href="#" class="btn-view">Xem sản phẩm</a>
-                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <div id="page-ios" class="hidden">
+        <section class="hero" style="padding: 30px 5% 40px 5%;">
+            <h1>HỖ TRỢ KÉO TÂM IOS</h1>
+            <p style="margin-bottom: 0;">7 sản phẩm hiển thị trên trang này</p>
+        </section>
+
+        <main class="sections-container">
+            <div class="section-title">
+                <h2>DANH SÁCH TIỆN ÍCH</h2>
+                <span class="section-badge">HO-TRO-IOS</span>
             </div>
 
-            <!-- Sản phẩm 4 -->
-            <div class="product-card">
-                <div class="card-img">
-                    <i class="fa-solid : fa-code"></i>
-                    <div class="badge-container">
-                        <span class="badge">SOURCE CODE</span>
+            <div class="grid-layout">
+                
+                <div class="product-card">
+                    <img src="https://i.imgur.com/z0zBWhR.jpg" alt="MENU MIGUL IPA" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-sliders"></i></div>
+                    <div class="card-body">
+                        <h3>MENU MIGUL IPA</h3>
+                        <p>Hỗ trợ tinh chỉnh cài đặt thông số FOV Circle, ẩn bot và tăng khả năng hiển thị mục tiêu.</p>
+                        <div class="price">50.000 đ</div>
+                        <div class="btn-view">XEM CHI TIẾT</div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h3>MÃ NGUỒN ( SOURCE CODE )</h3>
-                    <p>Các bộ mã nguồn web, script tối ưu hóa hiệu năng cực đẹp.</p>
-                    <a href="#" class="btn-view">Xem sản phẩm</a>
-                </div>
-            </div>
 
-            <!-- Sản phẩm 5 -->
-            <div class="product-card">
-                <div class="card-img">
-                    <i class="fa-solid : fa-user-shield"></i>
-                    <div class="badge-container">
-                        <span class="badge">ACC CLONE</span>
+                <div class="product-card">
+                    <img src="https://i.imgur.com/FwWk8Ue.png" alt="PROXY AIM BODY TH&MAX" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-crosshairs"></i></div>
+                    <div class="card-body">
+                        <h3>PROXY AIM BODY TH&MAX</h3>
+                        <p>Tự động khóa mục tiêu vào phần thân trên, tối ưu hóa sát thương thực tế cực kỳ chuẩn xác.</p>
+                        <div class="price">60.000 đ</div>
+                        <div class="btn-view">XEM CHI TIẾT</div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h3>CLONE LV5</h3>
-                    <p>Tài khoản phụ phục vụ test phần mềm, đầy đủ thông tin.</p>
-                    <a href="#" class="btn-view">Xem sản phẩm</a>
-                </div>
-            </div>
 
-            <!-- Sản phẩm 6 -->
-            <div class="product-card">
-                <div class="card-img">
-                    <i class="fa-solid : fa-file-signature"></i>
-                    <div class="badge-container">
-                        <span class="badge">IPA SIGN</span>
+                <div class="product-card">
+                    <img src="https://i.imgur.com/h9GZ78T.jpg" alt="IMAZING VIP OB53" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-bolt"></i></div>
+                    <div class="card-body">
+                        <h3>IMAZING VIP OB53</h3>
+                        <p>Bản backup dữ liệu nâng cao qua máy tính, cập nhật tương thích trực tiếp với phiên bản OB53.</p>
+                        <div class="price">30.000 đ</div>
+                        <div class="btn-view">XEM CHI TIẾT</div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h3>CHỨNG CHỈ ESIGN</h3>
-                    <p>Ký app iOS không lo bị thu hồi, chứng chỉ thợ lâu dài.</p>
-                    <a href="#" class="btn-view">Xem sản phẩm</a>
+
+                <div class="product-card">
+                    <img src="https://i.imgur.com/xT9A8X7.jpg" alt="PROXY AIM ANTENA TH&MAX" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-satellite-dish"></i></div>
+                    <div class="card-body">
+                        <h3>PROXY AIM ANTENA TH&MAX</h3>
+                        <p>Hỗ trợ định vị vị trí tầm xa một cách kín đáo, tối ưu hóa lối di chuyển chiến thuật.</p>
+                        <div class="price">60.000 đ</div>
+                        <div class="btn-view">XEM CHI TIẾT</div>
+                    </div>
                 </div>
+
+                <div class="product-card">
+                    <img src="https://i.imgur.com/8QeR7L7.png" alt="PROXY AIM DRAG TH&MAX" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-fire-flame-curved"></i></div>
+                    <div class="card-body">
+                        <h3>PROXY AIM DRAG TH&MAX</h3>
+                        <p>Tính năng Aim Drag 99% Headshot, tự động ghim tâm sẵn cổ mà hoàn toàn không cần Antena lộ liễu.</p>
+                        <div class="price">70.000 đ</div>
+                        <div class="btn-view">XEM CHI TIẾT</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://i.imgur.com/4z8g4S8.jpg" alt="MENU FLUORITE IPA" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-eye"></i></div>
+                    <div class="card-body">
+                        <h3>MENU FLUORITE IPA</h3>
+                        <p>Bao gồm đầy đủ tính năng ESP Line, Box, hiển thị thông tin Khoảng cách và lượng máu đối thủ.</p>
+                        <div class="price">90.000 đ</div>
+                        <div class="btn-view">XEM CHI TIẾT</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://i.imgur.com/eH7G6W3.jpg" alt="PROXY AIM MAGIC TH&MAX" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-wand-magic-sparkles"></i></div>
+                    <div class="card-body">
+                        <h3>PROXY AIM MAGIC TH&MAX</h3>
+                        <p>Hỗ trợ bo đạn góc rộng thông minh, tối ưu trải nghiệm chiến đấu mượt mà trên nền tảng iOS.</p>
+                        <div class="price">40.000 đ</div>
+                        <div class="btn-view">XEM CHI TIẾT</div>
+                    </div>
+                </div>
+
             </div>
+        </main>
+    </div>
 
-        </div>
 
-        <!-- KHỐI LIÊN HỆ ĐÃ ĐỔI SỐ ĐIỆN THOẠI -->
+    <div class="sections-container">
         <div class="support-box">
-            <h2>Bạn cần hỗ trợ?</h2>
-            <p>Liên hệ với chúng tôi ngay để được tư vấn và hỗ trợ nhanh nhất.</p>
+            <h2>Bạn cần hỗ trợ trực tiếp?</h2>
+            <p>Liên hệ với hệ thống của chúng tôi để được tư vấn kích hoạt gói phần mềm nhanh nhất.</p>
             <a href="tel:0397208110" class="btn-phone">
-                <i class="fa-solid : fa-phone-volume"></i> Gọi điện: 0397208110
+                <i class="fa-solid : fa-phone-volume"></i> Hotline hỗ trợ: 0397208110
             </a>
         </div>
+    </div>
 
-    </main>
-
-    <!-- CHÂN TRANG ĐÃ THAY ĐỔI THÔNG TIN BẢN QUYỀN VÀ TÊN SHOP -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>ktshop</h4>
-                <p style="font-size: 0.9rem;">Cửa hàng công nghệ hàng đầu Việt Nam. Chuyên cung cấp tài khoản game, dịch vụ số uy tín với giá cả hợp lý nhất.</p>
+                <p style="font-size: 0.9rem;">Cửa hàng công nghệ chuyên cung cấp tài khoản game, giải pháp tối ưu hóa thiết bị di động hàng đầu hiện nay.</p>
             </div>
             <div class="footer-col">
                 <h4>ĐIỀU HƯỚNG</h4>
                 <ul>
-                    <li><a href="#">Trang chủ</a></li>
-                    <li><a href="#">Sản phẩm</a></li>
-                    <li><a href="#">Nạp thẻ cào</a></li>
-                    <li><a href="#">Nạp Bank</a></li>
+                    <li><a href="#" onclick="showPage('home')">Trang chủ</a></li>
+                    <li><a href="#" onclick="showPage('ios-category')">Sản phẩm iOS</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>HỖ TRỢ</h4>
                 <ul>
                     <li><a href="tel:0397208110">Liên hệ: 0397208110</a></li>
-                    <li><a href="#">Chính sách bảo mật</a></li>
-                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Điều khoản dịch vụ</a></li>
                 </ul>
             </div>
         </div>
@@ -474,11 +541,29 @@
         </div>
     </footer>
 
-    <!-- NÚT ZALO HOVER GÓC PHẢI -->
     <a href="https://zalo.me/0397208110" target="_blank" class="zalo-float">
         <i class="fa-solid : fa-comment-dots"></i> Zalo Admin
     </a>
 
+    <script>
+        function showPage(pageId) {
+            const homePage = document.getElementById('page-home');
+            const iosPage = document.getElementById('page-ios');
+            const crumb = document.getElementById('current-crumb');
+
+            if(pageId === 'ios-category') {
+                homePage.classList.add('hidden');
+                iosPage.classList.remove('hidden');
+                crumb.innerHTML = '<span>Hỗ trợ kéo tâm iOS</span>';
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            } else {
+                iosPage.classList.add('hidden');
+                homePage.classList.remove('hidden');
+                crumb.innerText = 'Danh mục tổng hợp';
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        }
+    </script>
 </body>
 </html>
  
