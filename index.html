@@ -3,566 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KT SHOP - Cửa Hàng Công Nghệ Hàng Đầu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>FFxm - Hệ Thống Setting & Mod Free Fire</title>
     <style>
-        /* === PHẦN CSS TOÀN CỤC === */
-        :root {
-            --bg-color: #0b0c10;
-            --card-bg: #1f2833;
-            --primary-neon: #00f2fe;
-            --secondary-neon: #4facfe;
-            --text-color: #c5c6c7;
-            --text-light: #ffffff;
-            --accent-purple: #7f00ff;
-            --price-color: #ffb830;
-        }
-
+        /* Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            background-color: #0b0c10;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* === HEADER === */
-        header {
-            background: rgba(31, 40, 51, 0.8);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-neon), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: pointer;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-
-        .nav-links a:hover, .breadcrumb a:hover {
-            color: var(--primary-neon);
-        }
-
-        /* === BREADCRUMB (ĐƯỜNG DẪN LIÊN KẾT) === */
-        .breadcrumb {
-            margin-top: 90px;
-            padding: 10px 5%;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 0.9rem;
-        }
-        .breadcrumb span {
-            color: var(--text-light);
-        }
-
-        /* === HERO BANNER === */
-        .hero {
-            padding: 40px 5% 60px 5%;
-            text-align: center;
-            background: radial-gradient(circle at center, rgba(127,0,255,0.15) 0%, rgba(11,12,16,1) 70%);
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            color: var(--text-light);
-            margin-bottom: 15px;
+        /* Đống hiệu ứng chữ Neon */
+        .neon-text {
+            color: #00f0ff;
+            text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff, 0 0 20px #00a8ff;
+            font-weight: bold;
             text-transform: uppercase;
         }
 
-        .hero p {
+        /* 1. MÀN HÌNH ĐẾM NGƯỢC (INTRO) */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #1f2833 0%, #0b0c10 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .logo-main {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .status-loading {
             font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 25px auto;
+            color: #c5c6c7;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: blink 1.5s infinite;
         }
 
-        .btn-cta {
-            background: linear-gradient(45deg, var(--secondary-neon), var(--primary-neon));
-            color: #000;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-            transition: 0.3s;
-            display: inline-block;
-            cursor: pointer;
+        .countdown-number {
+            font-size: 5rem;
+            color: #ff0055;
+            text-shadow: 0 0 10px #ff0055, 0 0 30px #ff0055;
+            font-weight: 900;
         }
 
-        /* === BỐ CỤC CHUNG === */
-        .sections-container {
-            padding: 20px 5%;
-            max-width: 1200px;
+        /* 2. GIAO DIỆN CHÍNH (MAIN CONTENT) */
+        #main-content {
+            display: none; /* Ẩn lúc đầu, hiện sau khi đếm ngược xong */
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            padding: 40px 20px 100px 20px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        .section-title {
-            font-size: 1.6rem;
-            color: var(--text-light);
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        header {
+            text-align: center;
+            margin-bottom: 40px;
         }
 
-        .section-badge {
-            background: rgba(0, 242, 254, 0.1);
-            color: var(--primary-neon);
-            font-size: 0.8rem;
-            padding: 4px 10px;
-            border-radius: 5px;
-            border: 1px solid rgba(0, 242, 254, 0.3);
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
         }
 
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
+        header p {
+            color: #66fcf1;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
         }
 
-        /* === THIẾT KẾ CARD SẢN PHẨM === */
-        .product-card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-            position: relative;
+        /* Danh sách sản phẩm */
+        .product-list {
             display: flex;
             flex-direction: column;
+            gap: 20px;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-neon);
-            box-shadow: 0 5px 20px rgba(0, 242, 254, 0.2);
-        }
-
-        .card-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background: #111;
-        }
-
-        .card-img-placeholder {
-            width: 100%;
-            height: 180px;
-            background: #111;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255,255,255,0.1);
-            font-size: 3rem;
-        }
-
-        .badge-container {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .badge {
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 5px;
-            background: rgba(0,0,0,0.7);
-            color: var(--primary-neon);
-            border: 1px solid var(--primary-neon);
-        }
-
-        .card-body {
+        .product-card {
+            background: linear-gradient(135deg, #1f2833 0%, #151a21 100%);
+            border: 1px solid #45f3ff33;
+            border-radius: 12px;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
+            justify-content: space-between;
+            align-items: flex-start;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s, border-color 0.3s;
         }
 
-        .card-body h3 {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            min-height: 44px;
+        .product-card:hover {
+            transform: translateY(-3px);
+            border-color: #45f3ff;
         }
 
-        .card-body p {
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            color: #8f9499;
-            flex-grow: 1;
-        }
-
-        .price {
+        .product-info h3 {
             font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--price-color);
-            margin-bottom: 15px;
+            color: #66fcf1;
+            margin-bottom: 5px;
         }
 
-        .btn-view {
-            display: block;
-            text-align: center;
-            background: rgba(0, 242, 254, 0.05);
-            color: var(--primary-neon);
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .product-card:hover .btn-view {
-            background: linear-gradient(45deg, var(--secondary-neon), var(--primary-neon));
-            color: #000;
-            border-color: transparent;
-        }
-
-        /* === KHỐI LIÊN HỆ === */
-        .support-box {
-            background: linear-gradient(135deg, rgba(31, 40, 51, 1) 0%, rgba(127, 0, 255, 0.1) 100%);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid rgba(127, 0, 255, 0.3);
-            margin: 40px 0 60px 0;
-        }
-
-        .support-box h2 {
-            color: var(--text-light);
-            margin-bottom: 10px;
-        }
-
-        .btn-phone {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #25d366;
-            color: #fff;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-top: 15px;
-            font-size: 1.1rem;
-        }
-
-        /* === FOOTER === */
-        footer {
-            background-color: #050608;
-            padding: 40px 5% 20px 5%;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto 30px auto;
-        }
-
-        .footer-col h4 {
-            color: var(--text-light);
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
+        .product-info p {
             font-size: 0.9rem;
+            color: #c5c6c7;
         }
 
-        .footer-col ul li a:hover {
-            color: var(--primary-neon);
+        .note {
+            display: inline-block;
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            border: 1px solid rgba(255, 193, 7, 0.3);
         }
 
-        .copyright {
+        .btn-download {
+            margin-top: 15px;
+            align-self: flex-end;
+            background: linear-gradient(90deg, #00f0ff, #0072ff);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-download:hover {
+            background: linear-gradient(90deg, #0072ff, #00f0ff);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+        }
+
+        /* 3. BẢN QUYỀN CUỐI TRANG */
+        footer {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 5px;
+            padding: 20px;
+            color: #45a29e;
             font-size: 0.85rem;
-            color: #666;
+            border-top: 1px solid #1f2833;
         }
 
-        .zalo-float {
+        /* 4. BONG BÓNG LIÊN HỆ ZALO (DƯỚI CÙNG BÊN TRÁI) */
+        .zalo-bubble-container {
             position: fixed;
             bottom: 20px;
-            right: 20px;
-            background-color: #0068ff;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0,104,255,0.4);
-            z-index: 999;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            left: 20px;
+            z-index: 10000;
         }
 
-        /* Ẩn nội dung bổ trợ lúc ban đầu */
-        .hidden {
-            display: none !important;
+        .zalo-trigger-btn {
+            width: 60px;
+            height: 60px;
+            background-color: #0068ff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 104, 255, 0.5);
+            transition: transform 0.3s;
+            border: 2px solid #ffffff;
+        }
+
+        .zalo-trigger-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .zalo-trigger-btn img {
+            width: 35px;
+            height: 35px;
+        }
+
+        /* Khung hiển thị thông tin khi nhấn vào */
+        .zalo-popup {
+            display: none;
+            position: absolute;
+            bottom: 75px;
+            left: 0;
+            background: #151a21;
+            border: 1px solid #0068ff;
+            border-radius: 10px;
+            padding: 15px;
+            width: 280px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .zalo-popup h4 {
+            color: #0068ff;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            border-bottom: 1px solid #1f2833;
+            padding-bottom: 5px;
+        }
+
+        .zalo-item {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .zalo-item span {
+            color: #c5c6c7;
+        }
+
+        .zalo-item a {
+            color: #00f0ff;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .zalo-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Keyframes Animations */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Giao diện Mobile */
+        @media (min-width: 600px) {
+            .product-card {
+                flex-direction: row;
+                align-items: center;
+            }
+            .btn-download {
+                margin-top: 0;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <nav class="navbar">
-            <div class="logo" onclick="showPage('home')">KT SHOP</div>
-            <ul class="nav-links">
-                <li><a href="#" onclick="showPage('home')">Trang chủ</a></li>
-                <li><a href="tel:0397208110">Liên hệ</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="breadcrumb">
-        <a href="#" onclick="showPage('home')">Trang chủ</a> / <span id="current-crumb">Danh mục tổng hợp</span>
+    <!-- MÀN HÌNH ĐẾM NGƯỢC KHI VÀO WEB -->
+    <div id="intro-screen">
+        <div class="logo-main neon-text">FFxm</div>
+        <div class="status-loading">Đang cấu hình hệ thống setting hack Free Fire<br>& cập nhật mod mới nhất...</div>
+        <div class="countdown-number" id="countdown-timer">10</div>
     </div>
 
+    <!-- GIAO DIỆN CHÍNH SẼ HIỆN RA SAU 10 GIÂY -->
+    <div id="main-content">
+        <header>
+            <h1 class="neon-text">FFxm</h1>
+            <p>HỆ THỐNG CUNG CẤP MOD & SETTING FREE FIRE</p>
+        </header>
 
-    <div id="page-home">
-        <section class="hero">
-            <h1>HỖ TRỢ CÔNG NGHỆ GAME DI ĐỘNG</h1>
-            <p>Chuyên cung cấp tài khoản game, dịch vụ phần mềm tối ưu hệ thống uy tín chất lượng, cập nhật liên tục 24/7 tại ktshop.</p>
-            <div class="btn-cta" onclick="showPage('ios-category')">Xem Ngay Tiện Ích</div>
-        </section>
-
-        <main class="sections-container">
-            <div class="section-title">
-                <i class="fa-solid : fa-layer-group"></i>
-                <h2>DANH MỤC CƠ BẢN</h2>
+        <main class="product-list">
+            <!-- Sản phẩm 1 -->
+            <div class="product-card">
+                <div class="product-info">
+                    <h3>1. Hack Android free No Root</h3>
+                    <p>Bản Hack dành cho thiết bị Android chưa Root, an toàn và dễ cài đặt.</p>
+                </div>
+                <a href="#" class="btn-download" onclick="alert('Bắt đầu tải Hack Android No Root...')">Nhấp vào để cài đặt</a>
             </div>
 
-            <div class="grid-layout">
-                <div class="product-card">
-                    <div class="card-img-placeholder">
-                        <i class="fa-brands : fa-apple"></i>
-                        <div class="badge-container">
-                            <span class="badge">UY TÍN</span>
-                            <span class="badge">TỰ ĐỘNG</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3>HỖ TRỢ KÉO TÂM IOS</h3>
-                        <p>Tổng hợp 7 sản phẩm chuyên dụng, an toàn tuyệt đối cho thiết bị iOS.</p>
-                        <div class="btn-view" onclick="showPage('ios-category')">Xem sản phẩm</div>
-                    </div>
+            <!-- Sản phẩm 2 -->
+            <div class="product-card">
+                <div class="product-info">
+                    <h3>2. Hack Android free Root</h3>
+                    <p>Bản Hack tối ưu hóa sâu dành riêng cho máy Android đã Root.</p>
                 </div>
+                <a href="#" class="btn-download" onclick="alert('Bắt đầu tải Hack Android Root...')">Nhấp vào để cài đặt</a>
+            </div>
 
-                <div class="product-card">
-                    <div class="card-img-placeholder">
-                        <i class="fa-brands : fa-android"></i>
-                        <div class="badge-container">
-                            <span class="badge">MỚI NHẤT</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3>HỖ TRỢ KÉO TÂM ANDROID</h3>
-                        <p>Danh mục công cụ hỗ trợ mượt mà dành cho các dòng máy Android.</p>
-                        <div class="btn-view">Xem sản phẩm</div>
-                    </div>
+            <!-- Sản phẩm 3 -->
+            <div class="product-card">
+                <div class="product-info">
+                    <h3>3. Menu Migul Ipa ios</h3>
+                    <p>Menu Hack định dạng IPA dành cho các dòng máy iOS.</p>
+                    <div class="note">⚠️ Ghi chú: Cần vượt link để lấy key</div>
                 </div>
+                <a href="#" class="btn-download" onclick="alert('Đang chuyển hướng vượt link lấy Key Menu Migul...')">Nhấp vào để cài đặt</a>
+            </div>
+
+            <!-- Sản phẩm 4 -->
+            <div class="product-card">
+                <div class="product-info">
+                    <h3>4. Proxy Aimbody ios</h3>
+                    <p>Cấu hình Proxy hỗ trợ khóa mục tiêu (Aimbody) cực chuẩn trên iOS.</p>
+                </div>
+                <a href="#" class="btn-download" onclick="alert('Đang lấy link cài đặt Proxy Aimbody...')">Nhấp vào để lấy link</a>
+            </div>
+
+            <!-- Sản phẩm 5 -->
+            <div class="product-card">
+                <div class="product-info">
+                    <h3>5. Menu fluorite Ipa ios</h3>
+                    <p>Bản Mod Menu fluorite mượt mà, nhiều tính năng bá đạo cho iOS.</p>
+                    <div class="note">⚠️ Ghi chú: Cần vượt link để lấy key</div>
+                </div>
+                <a href="#" class="btn-download" onclick="alert('Đang chuyển hướng vượt link lấy Key Menu fluorite...')">Nhấp vào để cài đặt</a>
             </div>
         </main>
+
+        <!-- BẢN QUYỀN CUỐI TRANG -->
+        <footer>
+            Bản quyền KT GROUP VN 2026
+        </footer>
     </div>
 
-
-    <div id="page-ios" class="hidden">
-        <section class="hero" style="padding: 30px 5% 40px 5%;">
-            <h1>HỖ TRỢ KÉO TÂM IOS</h1>
-            <p style="margin-bottom: 0;">7 sản phẩm hiển thị trên trang này</p>
-        </section>
-
-        <main class="sections-container">
-            <div class="section-title">
-                <h2>DANH SÁCH TIỆN ÍCH</h2>
-                <span class="section-badge">HO-TRO-IOS</span>
+    <!-- BONG BÓNG LIÊN HỆ ZALO BÊN TRÁI -->
+    <div class="zalo-bubble-container">
+        <!-- Khung hiện thông tin (Popup) -->
+        <div class="zalo-popup" id="zaloPopup">
+            <h4>HỖ TRỢ & CỘNG ĐỒNG</h4>
+            <div class="zalo-item">
+                <span>💬 <b>Zalo Admin:</b> </span>
+                <a href="tel:0397208110">0397208110</a>
             </div>
-
-            <div class="grid-layout">
-                
-                <div class="product-card">
-                    <img src="https://i.imgur.com/z0zBWhR.jpg" alt="MENU MIGUL IPA" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-sliders"></i></div>
-                    <div class="card-body">
-                        <h3>MENU MIGUL IPA</h3>
-                        <p>Hỗ trợ tinh chỉnh cài đặt thông số FOV Circle, ẩn bot và tăng khả năng hiển thị mục tiêu.</p>
-                        <div class="price">50.000 đ</div>
-                        <div class="btn-view">XEM CHI TIẾT</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://i.imgur.com/FwWk8Ue.png" alt="PROXY AIM BODY TH&MAX" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-crosshairs"></i></div>
-                    <div class="card-body">
-                        <h3>PROXY AIM BODY TH&MAX</h3>
-                        <p>Tự động khóa mục tiêu vào phần thân trên, tối ưu hóa sát thương thực tế cực kỳ chuẩn xác.</p>
-                        <div class="price">60.000 đ</div>
-                        <div class="btn-view">XEM CHI TIẾT</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://i.imgur.com/h9GZ78T.jpg" alt="IMAZING VIP OB53" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-bolt"></i></div>
-                    <div class="card-body">
-                        <h3>IMAZING VIP OB53</h3>
-                        <p>Bản backup dữ liệu nâng cao qua máy tính, cập nhật tương thích trực tiếp với phiên bản OB53.</p>
-                        <div class="price">30.000 đ</div>
-                        <div class="btn-view">XEM CHI TIẾT</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://i.imgur.com/xT9A8X7.jpg" alt="PROXY AIM ANTENA TH&MAX" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-satellite-dish"></i></div>
-                    <div class="card-body">
-                        <h3>PROXY AIM ANTENA TH&MAX</h3>
-                        <p>Hỗ trợ định vị vị trí tầm xa một cách kín đáo, tối ưu hóa lối di chuyển chiến thuật.</p>
-                        <div class="price">60.000 đ</div>
-                        <div class="btn-view">XEM CHI TIẾT</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://i.imgur.com/8QeR7L7.png" alt="PROXY AIM DRAG TH&MAX" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-fire-flame-curved"></i></div>
-                    <div class="card-body">
-                        <h3>PROXY AIM DRAG TH&MAX</h3>
-                        <p>Tính năng Aim Drag 99% Headshot, tự động ghim tâm sẵn cổ mà hoàn toàn không cần Antena lộ liễu.</p>
-                        <div class="price">70.000 đ</div>
-                        <div class="btn-view">XEM CHI TIẾT</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://i.imgur.com/4z8g4S8.jpg" alt="MENU FLUORITE IPA" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-eye"></i></div>
-                    <div class="card-body">
-                        <h3>MENU FLUORITE IPA</h3>
-                        <p>Bao gồm đầy đủ tính năng ESP Line, Box, hiển thị thông tin Khoảng cách và lượng máu đối thủ.</p>
-                        <div class="price">90.000 đ</div>
-                        <div class="btn-view">XEM CHI TIẾT</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://i.imgur.com/eH7G6W3.jpg" alt="PROXY AIM MAGIC TH&MAX" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="card-img-placeholder" style="display:none;"><i class="fa-solid : fa-wand-magic-sparkles"></i></div>
-                    <div class="card-body">
-                        <h3>PROXY AIM MAGIC TH&MAX</h3>
-                        <p>Hỗ trợ bo đạn góc rộng thông minh, tối ưu trải nghiệm chiến đấu mượt mà trên nền tảng iOS.</p>
-                        <div class="price">40.000 đ</div>
-                        <div class="btn-view">XEM CHI TIẾT</div>
-                    </div>
-                </div>
-
+            <div class="zalo-item">
+                <span>👥 <b>Cộng đồng:</b> </span>
+                <br>
+                <a href="https://zalo.me/g/bgufpb354" target="_blank">https://zalo.me/g/bgufpb354</a>
             </div>
-        </main>
-    </div>
-
-
-    <div class="sections-container">
-        <div class="support-box">
-            <h2>Bạn cần hỗ trợ trực tiếp?</h2>
-            <p>Liên hệ với hệ thống của chúng tôi để được tư vấn kích hoạt gói phần mềm nhanh nhất.</p>
-            <a href="tel:0397208110" class="btn-phone">
-                <i class="fa-solid : fa-phone-volume"></i> Hotline hỗ trợ: 0397208110
-            </a>
+        </div>
+        
+        <!-- Nút Tròn Nhấp Vào -->
+        <div class="zalo-trigger-btn" onclick="toggleZaloPopup()">
+            <!-- Sử dụng tạm icon text Zalo nếu không có ảnh, hoặc ảnh SVG dưới đây -->
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="#fff">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.35 3.01.97 4.32l-1.35 4.05a.75.75 0 0 0 .94.94l4.05-1.35c1.31.62 2.78.97 4.32.97 5.52 0 10-4.48 10-10S17.52 2 12 2zm4.5 12.5c-.2.5-.8 1-1.3 1.1-.4.1-.9.2-2.5-.4-2.1-.8-3.5-3-3.6-3.1-.1-.1-.8-1-1-1.4-.2-.5 0-.8.2-1 .2-.2.4-.4.6-.6.2-.2.3-.3.4-.5.1-.2 0-.4-.1-.6-.1-.2-.6-1.5-.8-2-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.7.4-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.2-.5 1.4-1 .2-.5.2-1 .1-1.1-.1-.1-.3-.2-.6-.3z"/>
+            </svg>
         </div>
     </div>
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>ktshop</h4>
-                <p style="font-size: 0.9rem;">Cửa hàng công nghệ chuyên cung cấp tài khoản game, giải pháp tối ưu hóa thiết bị di động hàng đầu hiện nay.</p>
-            </div>
-            <div class="footer-col">
-                <h4>ĐIỀU HƯỚNG</h4>
-                <ul>
-                    <li><a href="#" onclick="showPage('home')">Trang chủ</a></li>
-                    <li><a href="#" onclick="showPage('ios-category')">Sản phẩm iOS</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>HỖ TRỢ</h4>
-                <ul>
-                    <li><a href="tel:0397208110">Liên hệ: 0397208110</a></li>
-                    <li><a href="#">Điều khoản dịch vụ</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2026 KT GROUP VN. Tất cả các quyền được bảo lưu.
-        </div>
-    </footer>
-
-    <a href="https://zalo.me/0397208110" target="_blank" class="zalo-float">
-        <i class="fa-solid : fa-comment-dots"></i> Zalo Admin
-    </a>
-
+    <!-- XỬ LÝ LOGIC ĐẾM NGƯỢC VÀ POPUP -->
     <script>
-        function showPage(pageId) {
-            const homePage = document.getElementById('page-home');
-            const iosPage = document.getElementById('page-ios');
-            const crumb = document.getElementById('current-crumb');
+        // Xử lý bộ đếm ngược 10 giây
+        let count = 10;
+        const countdownTimer = document.getElementById('countdown-timer');
+        const introScreen = document.getElementById('intro-screen');
+        const mainContent = document.getElementById('main-content');
 
-            if(pageId === 'ios-category') {
-                homePage.classList.add('hidden');
-                iosPage.classList.remove('hidden');
-                crumb.innerHTML = '<span>Hỗ trợ kéo tâm iOS</span>';
-                window.scrollTo({top: 0, behavior: 'smooth'});
+        const interval = setInterval(() => {
+            count--;
+            countdownTimer.innerText = count;
+
+            if (count <= 0) {
+                clearInterval(interval);
+                
+                // Ẩn màn hình intro
+                introScreen.style.opacity = '0';
+                introScreen.style.visibility = 'hidden';
+                
+                // Hiện màn hình chính
+                mainContent.style.display = 'block';
+                setTimeout(() => {
+                    mainContent.style.opacity = '1';
+                }, 50);
+            }
+        }, 1000);
+
+        // Xử lý ẩn hiện Bong bóng Zalo
+        function toggleZaloPopup() {
+            const popup = document.getElementById('zaloPopup');
+            if (popup.style.display === 'block') {
+                popup.style.display = 'none';
             } else {
-                iosPage.classList.add('hidden');
-                homePage.classList.remove('hidden');
-                crumb.innerText = 'Danh mục tổng hợp';
-                window.scrollTo({top: 0, behavior: 'smooth'});
+                popup.style.display = 'block';
             }
         }
+
+        // Đóng popup Zalo nếu bấm trượt ra ngoài máy tính
+        window.addEventListener('click', function(e) {
+            const container = document.querySelector('.zalo-bubble-container');
+            const popup = document.getElementById('zaloPopup');
+            if (!container.contains(e.target)) {
+                popup.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
