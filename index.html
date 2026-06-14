@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT SHOP - Cửa Hàng Công Nghệ Hàng Đầu</title>
+    <!-- Chèn Google Fonts để lấy font chữ hiện đại -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome để dùng các icon như điện thoại, user, card... -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* === PHẦN CSS TOÀN CỤC === */
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --primary-neon: #00f2fe;
+            --secondary-neon: #4facfe;
+            --text-color: #c5c6c7;
+            --text-light: #ffffff;
+            --accent-purple: #7f00ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* === HEADER & NAVIGATION === */
+        header {
+            background: rgba(31, 40, 51, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-neon), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-neon);
+        }
+
+        /* === HERO BANNER === */
+        .hero {
+            margin-top: 80px;
+            padding: 60px 5%;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(127,0,255,0.15) 0%, rgba(11,12,16,1) 70%);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 25px auto;
+        }
+
+        .btn-cta {
+            background: linear-gradient(45deg, var(--secondary-neon), var(--primary-neon));
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+        }
+
+        /* === DANH MỤC SẢN PHẨM === */
+        .sections-container {
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary-neon);
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* === KIỂU DÁNG CARD NEON === */
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-neon);
+            box-shadow: 0 5px 20px rgba(0, 242, 254, 0.2);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.1);
+            font-size: 3rem;
+            position: relative;
+        }
+
+        /* Nhãn badge nhỏ */
+        .badge-container {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 5px;
+            background: rgba(0,0,0,0.6);
+            color: var(--primary-neon);
+            border: 1px solid var(--primary-neon);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body h3 {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .card-body p {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            color: #8f9499;
+        }
+
+        .btn-view {
+            display: block;
+            text-align: center;
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--primary-neon);
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            transition: 0.3s;
+        }
+
+        .product-card:hover .btn-view {
+            background: linear-gradient(45deg, var(--secondary-neon), var(--primary-neon));
+            color: #000;
+        }
+
+        /* === KHỐI LIÊN HỆ GẤP === */
+        .support-box {
+            background: linear-gradient(135deg, rgba(31, 40, 51, 1) 0%, rgba(127, 0, 255, 0.1) 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(127, 0, 255, 0.3);
+            margin-bottom: 60px;
+        }
+
+        .support-box h2 {
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .btn-phone {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25d366; /* Màu xanh nổi bật */
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* === FOOTER CHÂN TRANG === */
+        footer {
+            background-color: #050608;
+            padding: 40px 5% 20px 5%;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+        }
+
+        .footer-col h4 {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary-neon);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* === NÚT ZALO FLOAT (GÓC MÀN HÌNH) === */
+        .zalo-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #0068ff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,104,255,0.4);
+            z-index: 999;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- THANH ĐIỀU HƯỚNG BAN ĐẦU -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">KT SHOP</div>
+            <ul class="nav-links">
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#san-pham">Sản phẩm</a></li>
+                <li><a href="tel:0397208110">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- KHỐI BANNER CHÀO MỪNG -->
+    <section class="hero">
+        <h1>HỖ TRỢ KÉO TÂM IOS & ANDROID</h1>
+        <p>Khám phá các danh mục sản phẩm đa dạng, dịch vụ phần mềm uy tín chất lượng, cập nhật liên tục 24/7 tại ktshop.</p>
+        <a href="#san-pham" class="btn-cta">Khám Phá Ngay</a>
+    </section>
+
+    <!-- KHỐI NỘI DUNG CHÍNH -->
+    <main class="sections-container" id="san-pham">
+        
+        <div class="section-title">
+            <i class="fa-solid : fa-layer-group"></i>
+            <h2>DANH MỤC SẢN PHẨM</h2>
+        </div>
+
+        <!-- GRID DANH SÁCH CÁC SẢN PHẨM Y NHƯ TRONG VIDEO -->
+        <div class="grid-layout">
+            
+            <!-- Sản phẩm 1 -->
+            <div class="product-card">
+                <div class="card-img">
+                    <i class="fa-brand : fa-apple"></i> <!-- Thay bằng thẻ <img> nếu bạn có ảnh -->
+                    <div class="badge-container">
+                        <span class="badge">UY TÍN</span>
+                        <span class="badge">TỰ ĐỘNG</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>HỖ TRỢ KÉO TÂM IOS</h3>
+                    <p>Danh mục chọn lọc, cập nhật liên tục bản mới nhất.</p>
+                    <a href="#" class="btn-view">Xem sản phẩm</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 2 -->
+            <div class="product-card">
+                <div class="card-img">
+                    <i class="fa-solid : fa-shirt"></i>
+                    <div class="badge-container">
+                        <span class="badge">UY TÍN</span>
+                        <span class="badge">24/7</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>MOD SKIN IOS</h3>
+                    <p>Danh mục chọn lọc, cập nhật liên tục bản mới nhất.</p>
+                    <a href="#" class="btn-view">Xem sản phẩm</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 3 -->
+            <div class="product-card">
+                <div class="card-img">
+                    <i class="fa-brand : fa-android"></i>
+                    <div class="badge-container">
+                        <span class="badge">TỰ ĐỘNG</span>
+                        <span class="badge">24/7</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>HỖ TRỢ KÉO TÂM ANDROID</h3>
+                    <p>Danh mục chọn lọc, cập nhật liên tục bản mới nhất.</p>
+                    <a href="#" class="btn-view">Xem sản phẩm</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 4 -->
+            <div class="product-card">
+                <div class="card-img">
+                    <i class="fa-solid : fa-code"></i>
+                    <div class="badge-container">
+                        <span class="badge">SOURCE CODE</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>MÃ NGUỒN ( SOURCE CODE )</h3>
+                    <p>Các bộ mã nguồn web, script tối ưu hóa hiệu năng cực đẹp.</p>
+                    <a href="#" class="btn-view">Xem sản phẩm</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 5 -->
+            <div class="product-card">
+                <div class="card-img">
+                    <i class="fa-solid : fa-user-shield"></i>
+                    <div class="badge-container">
+                        <span class="badge">ACC CLONE</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>CLONE LV5</h3>
+                    <p>Tài khoản phụ phục vụ test phần mềm, đầy đủ thông tin.</p>
+                    <a href="#" class="btn-view">Xem sản phẩm</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 6 -->
+            <div class="product-card">
+                <div class="card-img">
+                    <i class="fa-solid : fa-file-signature"></i>
+                    <div class="badge-container">
+                        <span class="badge">IPA SIGN</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>CHỨNG CHỈ ESIGN</h3>
+                    <p>Ký app iOS không lo bị thu hồi, chứng chỉ thợ lâu dài.</p>
+                    <a href="#" class="btn-view">Xem sản phẩm</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- KHỐI LIÊN HỆ ĐÃ ĐỔI SỐ ĐIỆN THOẠI -->
+        <div class="support-box">
+            <h2>Bạn cần hỗ trợ?</h2>
+            <p>Liên hệ với chúng tôi ngay để được tư vấn và hỗ trợ nhanh nhất.</p>
+            <a href="tel:0397208110" class="btn-phone">
+                <i class="fa-solid : fa-phone-volume"></i> Gọi điện: 0397208110
+            </a>
+        </div>
+
+    </main>
+
+    <!-- CHÂN TRANG ĐÃ THAY ĐỔI THÔNG TIN BẢN QUYỀN VÀ TÊN SHOP -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>ktshop</h4>
+                <p style="font-size: 0.9rem;">Cửa hàng công nghệ hàng đầu Việt Nam. Chuyên cung cấp tài khoản game, dịch vụ số uy tín với giá cả hợp lý nhất.</p>
+            </div>
+            <div class="footer-col">
+                <h4>ĐIỀU HƯỚNG</h4>
+                <ul>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#">Sản phẩm</a></li>
+                    <li><a href="#">Nạp thẻ cào</a></li>
+                    <li><a href="#">Nạp Bank</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>HỖ TRỢ</h4>
+                <ul>
+                    <li><a href="tel:0397208110">Liên hệ: 0397208110</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 KT GROUP VN. Tất cả các quyền được bảo lưu.
+        </div>
+    </footer>
+
+    <!-- NÚT ZALO HOVER GÓC PHẢI -->
+    <a href="https://zalo.me/0397208110" target="_blank" class="zalo-float">
+        <i class="fa-solid : fa-comment-dots"></i> Zalo Admin
+    </a>
+
+</body>
+</html>
+ 
