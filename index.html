@@ -1,405 +1,436 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FFxm - Hệ Thống Setting & Mod Free Fire</title>
-    <style>
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thống kê tiền 12 tháng</title>
 
-        body {
-            background-color: #0b0c10;
-            color: #ffffff;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        /* Hiệu ứng chữ Neon */
-        .neon-text {
-            color: #00f0ff;
-            text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff, 0 0 20px #00a8ff;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    color: #172033;
+}
 
-        /* 1. MÀN HÌNH ĐẾM NGƯỢC (INTRO) */
-        #intro-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #1f2833 0%, #0b0c10 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
 
-        .logo-main {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            letter-spacing: 3px;
-        }
+h1 {
+    text-align: center;
+    margin: 8px 0 20px;
+}
 
-        .status-loading {
-            font-size: 1.1rem;
-            color: #c5c6c7;
-            margin-bottom: 30px;
-            text-align: center;
-            animation: blink 1.5s infinite;
-        }
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
 
-        .countdown-number {
-            font-size: 5rem;
-            color: #ff0055;
-            text-shadow: 0 0 10px #ff0055, 0 0 30px #ff0055;
-            font-weight: 900;
-        }
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 4px 15px #00000010;
+}
 
-        /* 2. GIAO DIỆN CHÍNH (MAIN CONTENT) */
-        #main-content {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            padding: 40px 20px 100px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+.card small {
+    color: #667085;
+}
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+.card strong {
+    display: block;
+    font-size: 24px;
+    margin-top: 7px;
+}
 
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-        }
+.months {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
 
-        header p {
-            color: #66fcf1;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-        }
+.month {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 4px 15px #00000010;
+}
 
-        /* Danh sách sản phẩm */
-        .product-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+.month h2 {
+    font-size: 18px;
+    margin: 0 0 12px;
+}
 
-        .product-card {
-            background: linear-gradient(135deg, #1f2833 0%, #151a21 100%);
-            border: 1px solid #45f3ff33;
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-start;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s, border-color 0.3s;
-        }
+.total {
+    font-weight: bold;
+    margin: 10px 0;
+}
 
-        .product-card:hover {
-            transform: translateY(-3px);
-            border-color: #45f3ff;
-        }
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
 
-        .product-info h3 {
-            font-size: 1.3rem;
-            color: #66fcf1;
-            margin-bottom: 5px;
-        }
+.day {
+    text-align: center;
+}
 
-        .product-info p {
-            font-size: 0.9rem;
-            color: #c5c6c7;
-        }
+.day label {
+    font-size: 11px;
+    color: #667085;
+}
 
-        .note {
-            display: inline-block;
-            background-color: rgba(255, 193, 7, 0.15);
-            color: #ffc107;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-top: 8px;
-            border: 1px solid rgba(255, 193, 7, 0.3);
-        }
+.day input {
+    width: 100%;
+    padding: 7px 2px;
+    border: 1px solid #d8dee8;
+    border-radius: 7px;
+    text-align: center;
+    font-size: 12px;
+}
 
-        .btn-download {
-            margin-top: 15px;
-            align-self: flex-end;
-            background: linear-gradient(90deg, #00f0ff, #0072ff);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.3s, box-shadow 0.3s;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-        }
+.day input:focus {
+    outline: 2px solid #8ab4ff;
+    border-color: #4285f4;
+}
 
-        .btn-download:hover {
-            background: linear-gradient(90deg, #0072ff, #00f0ff);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
-        }
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
 
-        /* 3. BẢN QUYỀN CUỐI TRANG */
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #45a29e;
-            font-size: 0.85rem;
-            border-top: 1px solid #1f2833;
-        }
+button {
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 18px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-        /* 4. BONG BÓNG LIÊN HỆ ZALO (DƯỚI CÙNG BÊN TRÁI) */
-        .zalo-bubble-container {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 10000;
-        }
+.save {
+    background: #1677ff;
+    color: white;
+}
 
-        .zalo-trigger-btn {
-            width: 60px;
-            height: 60px;
-            background-color: #0068ff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 104, 255, 0.5);
-            transition: transform 0.3s;
-            border: 2px solid #ffffff;
-        }
+.clear {
+    background: #e9edf3;
+    color: #172033;
+}
 
-        .zalo-trigger-btn:hover {
-            transform: scale(1.1);
-        }
+@media(max-width:800px) {
+    .months {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
-        /* Khung hiển thị thông tin khi nhấn vào */
-        .zalo-popup {
-            display: none;
-            position: absolute;
-            bottom: 75px;
-            left: 0;
-            background: #151a21;
-            border: 1px solid #0068ff;
-            border-radius: 10px;
-            padding: 15px;
-            width: 250px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            animation: fadeInUp 0.3s ease;
-        }
+@media(max-width:550px) {
+    .summary {
+        grid-template-columns: 1fr;
+    }
 
-        .zalo-popup h4 {
-            color: #0068ff;
-            margin-bottom: 12px;
-            font-size: 1rem;
-            border-bottom: 1px solid #1f2833;
-            padding-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+    .months {
+        grid-template-columns: 1fr;
+    }
 
-        .zalo-item {
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-            color: #c5c6c7;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Chỉnh sửa nút "tại đây" màu xanh đẹp mắt */
-        .zalo-item a {
-            color: #00f0ff;
-            text-decoration: none;
-            font-weight: bold;
-            border-bottom: 1px dashed #00f0ff;
-            transition: color 0.2s;
-        }
-
-        .zalo-item a:hover {
-            color: #ffffff;
-            border-bottom: 1px solid #ffffff;
-        }
-
-        /* Keyframes Animations */
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive */
-        @media (min-width: 600px) {
-            .product-card {
-                flex-direction: row;
-                align-items: center;
-            }
-            .btn-download {
-                margin-top: 0;
-            }
-        }
-    </style>
+    .container {
+        padding: 12px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <!-- MÀN HÌNH ĐẾM NGƯỢC -->
-    <div id="intro-screen">
-        <div class="logo-main neon-text">FFxm</div>
-        <div class="status-loading">Đang cấu hình hệ thống setting hack Free Fire<br>& cập nhật mod mới nhất...</div>
-        <div class="countdown-number" id="countdown-timer">10</div>
+<div class="container">
+
+<h1>📊 Thống kê tiền năm</h1>
+
+<div class="summary">
+
+    <div class="card">
+        <small>Tổng cả năm</small>
+        <strong id="yearTotal">0 ₫</strong>
     </div>
 
-    <!-- GIAO DIỆN CHÍNH -->
-    <div id="main-content">
-        <header>
-            <h1 class="neon-text">FFxm</h1>
-            <p>HỆ THỐNG CUNG CẤP MOD & SETTING FREE FIRE</p>
-        </header>
-
-        <main class="product-list">
-            <!-- Sản phẩm 1 -->
-            <div class="product-card">
-                <div class="product-info">
-                    <h3>1. Hack Android free No Root</h3>
-                    <p>Bản Hack dành cho thiết bị Android chưa Root, an toàn và dễ cài đặt.</p>
-                </div>
-                <a href="#" class="btn-download" onclick="alert('Bắt đầu tải Hack Android No Root...')">Nhấp vào để cài đặt</a>
-            </div>
-
-            <!-- Sản phẩm 2 -->
-            <div class="product-card">
-                <div class="product-info">
-                    <h3>2. Hack Android free Root</h3>
-                    <p>Bản Hack tối ưu hóa sâu dành riêng cho máy Android đã Root.</p>
-                </div>
-                <a href="#" class="btn-download" onclick="alert('Bắt đầu tải Hack Android Root...')">Nhấp vào để cài đặt</a>
-            </div>
-
-            <!-- Sản phẩm 3 -->
-            <div class="product-card">
-                <div class="product-info">
-                    <h3>3. Menu Migul Ipa ios</h3>
-                    <p>Menu Hack định dạng IPA dành cho các dòng máy iOS.</p>
-                    <div class="note">⚠️ Ghi chú: Cần vượt link để lấy key</div>
-                </div>
-                <a href="#" class="btn-download" onclick="alert('Đang chuyển hướng vượt link lấy Key Menu Migul...')">Nhấp vào để cài đặt</a>
-            </div>
-
-            <!-- Sản phẩm 4 -->
-            <div class="product-card">
-                <div class="product-info">
-                    <h3>4. Proxy Aimbody ios</h3>
-                    <p>Cấu hình Proxy hỗ trợ khóa mục tiêu (Aimbody) cực chuẩn trên iOS.</p>
-                </div>
-                <a href="#" class="btn-download" onclick="alert('Đang lấy link cài đặt Proxy Aimbody...')">Nhấp vào để lấy link</a>
-            </div>
-
-            <!-- Sản phẩm 5 -->
-            <div class="product-card">
-                <div class="product-info">
-                    <h3>5. Menu fluorite Ipa ios</h3>
-                    <p>Bản Mod Menu fluorite mượt mà, nhiều tính năng bá đạo cho iOS.</p>
-                    <div class="note">⚠️ Ghi chú: Cần vượt link để lấy key</div>
-                </div>
-                <a href="#" class="btn-download" onclick="alert('Đang chuyển hướng vượt link lấy Key Menu fluorite...')">Nhấp vào để cài đặt</a>
-            </div>
-        </main>
-
-        <!-- BẢN QUYỀN -->
-        <footer>
-            Bản quyền KT GROUP VN 2026
-        </footer>
+    <div class="card">
+        <small>Trung bình / ngày</small>
+        <strong id="dailyAvg">0 ₫</strong>
     </div>
 
-    <!-- BONG BÓNG LIÊN HỆ -->
-    <div class="zalo-bubble-container">
-        <!-- Khung hiển thị rút gọn dùng chữ "tại đây" -->
-        <div class="zalo-popup" id="zaloPopup">
-            <h4>HỖ TRỢ & CỘNG ĐỒNG</h4>
-            <div class="zalo-item">
-                💬 Zalo Admin: <a href="https://zalo.me/0397208110" target="_blank">tại đây</a>
-            </div>
-            <div class="zalo-item">
-                👥 Cộng đồng: <a href="https://zalo.me/g/bgufpb354" target="_blank">tại đây</a>
-            </div>
-        </div>
-        
-        <!-- Nút Tròn Nhấp Vào -->
-        <div class="zalo-trigger-btn" onclick="toggleZaloPopup()">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="#fff">
-                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.35 3.01.97 4.32l-1.35 4.05a.75.75 0 0 0 .94.94l4.05-1.35c1.31.62 2.78.97 4.32.97 5.52 0 10-4.48 10-10S17.52 2 12 2zm4.5 12.5c-.2.5-.8 1-1.3 1.1-.4.1-.9.2-2.5-.4-2.1-.8-3.5-3-3.6-3.1-.1-.1-.8-1-1-1.4-.2-.5 0-.8.2-1 .2-.2.4-.4.6-.6.2-.2.3-.3.4-.5.1-.2 0-.4-.1-.6-.1-.2-.6-1.5-.8-2-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.7.4-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.2-.5 1.4-1 .2-.5.2-1 .1-1.1-.1-.1-.3-.2-.6-.3z"/>
-            </svg>
-        </div>
+    <div class="card">
+        <small>Tháng cao nhất</small>
+        <strong id="bestMonth">-</strong>
     </div>
 
-    <!-- SCRIPT ĐIỀU KHIỂN -->
-    <script>
-        // Màn hình đếm ngược 10s
-        let count = 10;
-        const countdownTimer = document.getElementById('countdown-timer');
-        const introScreen = document.getElementById('intro-screen');
-        const mainContent = document.getElementById('main-content');
+</div>
 
-        const interval = setInterval(() => {
-            count--;
-            countdownTimer.innerText = count;
+<div class="actions">
 
-            if (count <= 0) {
-                clearInterval(interval);
-                introScreen.style.opacity = '0';
-                introScreen.style.visibility = 'hidden';
-                mainContent.style.display = 'block';
-                setTimeout(() => {
-                    mainContent.style.opacity = '1';
-                }, 50);
-            }
-        }, 1000);
+    <button class="save" onclick="saveData()">
+        💾 Lưu dữ liệu
+    </button>
 
-        // Ẩn hiện popup Zalo
-        function toggleZaloPopup() {
-            const popup = document.getElementById('zaloPopup');
-            if (popup.style.display === 'block') {
-                popup.style.display = 'none';
-            } else {
-                popup.style.display = 'block';
-            }
+    <button class="clear" onclick="clearData()">
+        🗑️ Xóa toàn bộ
+    </button>
+
+</div>
+
+<div class="months" id="months"></div>
+
+</div>
+
+<script>
+
+const monthNames = [
+    "Tháng 1",
+    "Tháng 2",
+    "Tháng 3",
+    "Tháng 4",
+    "Tháng 5",
+    "Tháng 6",
+    "Tháng 7",
+    "Tháng 8",
+    "Tháng 9",
+    "Tháng 10",
+    "Tháng 11",
+    "Tháng 12"
+];
+
+const monthsEl = document.getElementById("months");
+
+function money(number) {
+
+    return new Intl.NumberFormat("vi-VN")
+        .format(number) + " ₫";
+
+}
+
+function daysInMonth(month) {
+
+    return new Date(2026, month + 1, 0).getDate();
+
+}
+
+function build() {
+
+    monthsEl.innerHTML = "";
+
+    monthNames.forEach((name, month) => {
+
+        const box = document.createElement("div");
+
+        box.className = "month";
+
+        box.innerHTML = `
+            <h2>${name}</h2>
+
+            <div class="total">
+                Tổng:
+                <span id="total-${month}">
+                    0 ₫
+                </span>
+            </div>
+
+            <div class="days" id="days-${month}"></div>
+        `;
+
+        monthsEl.appendChild(box);
+
+        const days = box.querySelector(".days");
+
+        for (
+            let day = 1;
+            day <= daysInMonth(month);
+            day++
+        ) {
+
+            const wrap = document.createElement("div");
+
+            wrap.className = "day";
+
+            wrap.innerHTML = `
+                <label>${day}</label>
+
+                <input
+                    type="number"
+                    min="0"
+                    step="1000"
+                    data-month="${month}"
+                    data-day="${day}"
+                    placeholder="0"
+                >
+            `;
+
+            days.appendChild(wrap);
+
         }
 
-        // Bấm ra ngoài để đóng popup
-        window.addEventListener('click', function(e) {
-            const container = document.querySelector('.zalo-bubble-container');
-            const popup = document.getElementById('zaloPopup');
-            if (!container.contains(e.target)) {
-                popup.style.display = 'none';
-            }
-        });
-    </script>
+    });
+
+    document.querySelectorAll("input").forEach(input => {
+
+        input.addEventListener("input", update);
+
+    });
+
+    loadData();
+
+    update();
+
+}
+
+function update() {
+
+    let year = 0;
+    let count = 0;
+
+    let totals = [];
+
+    for (let month = 0; month < 12; month++) {
+
+        let total = 0;
+
+        document
+            .querySelectorAll(
+                `input[data-month="${month}"]`
+            )
+            .forEach(input => {
+
+                const value = Number(input.value) || 0;
+
+                total += value;
+
+                if (input.value !== "") {
+                    count++;
+                }
+
+            });
+
+        document.getElementById(
+            `total-${month}`
+        ).textContent = money(total);
+
+        totals.push(total);
+
+        year += total;
+
+    }
+
+    document.getElementById(
+        "yearTotal"
+    ).textContent = money(year);
+
+    document.getElementById(
+        "dailyAvg"
+    ).textContent = money(
+        count ? year / count : 0
+    );
+
+    const max = Math.max(...totals);
+
+    document.getElementById(
+        "bestMonth"
+    ).textContent =
+        max > 0
+        ? `${monthNames[totals.indexOf(max)]} — ${money(max)}`
+        : "-";
+
+}
+
+function saveData() {
+
+    const data = {};
+
+    document.querySelectorAll("input").forEach(input => {
+
+        if (input.value !== "") {
+
+            const key =
+                input.dataset.month +
+                "-" +
+                input.dataset.day;
+
+            data[key] = input.value;
+
+        }
+
+    });
+
+    localStorage.setItem(
+        "moneyStats2026",
+        JSON.stringify(data)
+    );
+
+    alert("Đã lưu dữ liệu!");
+
+}
+
+function loadData() {
+
+    const data =
+        JSON.parse(
+            localStorage.getItem(
+                "moneyStats2026"
+            ) || "{}"
+        );
+
+    document.querySelectorAll("input").forEach(input => {
+
+        const key =
+            input.dataset.month +
+            "-" +
+            input.dataset.day;
+
+        if (data[key] !== undefined) {
+
+            input.value = data[key];
+
+        }
+
+    });
+
+}
+
+function clearData() {
+
+    if (
+        confirm(
+            "Bạn có chắc muốn xóa toàn bộ dữ liệu?"
+        )
+    ) {
+
+        localStorage.removeItem(
+            "moneyStats2026"
+        );
+
+        document.querySelectorAll("input")
+            .forEach(input => {
+                input.value = "";
+            });
+
+        update();
+
+    }
+
+}
+
+build();
+
+</script>
+
 </body>
-</html>
- 
+</html> 
