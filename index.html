@@ -3,199 +3,544 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thống kê tiền 12 tháng</title>
+<title>Money Statistics Anime</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f9;
-    color: #172033;
+html,body{
+    margin:0;
+    min-height:100%;
 }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px;
+body{
+    font-family:Arial,sans-serif;
+    color:#fff;
+    background:#050817;
+    overflow-x:hidden;
 }
 
-h1 {
-    text-align: center;
-    margin: 8px 0 20px;
+/* =========================
+   ANIME BACKGROUND
+========================= */
+
+.anime-bg{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 20% 20%,#7627b8 0%,transparent 30%),
+        radial-gradient(circle at 80% 30%,#1556b8 0%,transparent 30%),
+        radial-gradient(circle at 50% 90%,#35106d 0%,transparent 35%),
+        linear-gradient(135deg,#030510,#090d29,#10051f);
 }
 
-.summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
+/* ánh sáng chuyển động */
+
+.light{
+    position:absolute;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.35;
+    animation:moveLight 12s infinite alternate ease-in-out;
 }
 
-.card {
-    background: white;
-    border-radius: 14px;
-    padding: 18px;
-    box-shadow: 0 4px 15px #00000010;
+.light.one{
+    background:#9d28ff;
+    left:-200px;
+    top:-200px;
 }
 
-.card small {
-    color: #667085;
+.light.two{
+    background:#0077ff;
+    right:-200px;
+    top:20%;
+    animation-delay:2s;
 }
 
-.card strong {
-    display: block;
-    font-size: 24px;
-    margin-top: 7px;
+.light.three{
+    background:#ff2ca8;
+    bottom:-300px;
+    left:30%;
+    animation-delay:4s;
 }
 
-.months {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
-
-.month {
-    background: white;
-    border-radius: 14px;
-    padding: 16px;
-    box-shadow: 0 4px 15px #00000010;
-}
-
-.month h2 {
-    font-size: 18px;
-    margin: 0 0 12px;
-}
-
-.total {
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-}
-
-.day {
-    text-align: center;
-}
-
-.day label {
-    font-size: 11px;
-    color: #667085;
-}
-
-.day input {
-    width: 100%;
-    padding: 7px 2px;
-    border: 1px solid #d8dee8;
-    border-radius: 7px;
-    text-align: center;
-    font-size: 12px;
-}
-
-.day input:focus {
-    outline: 2px solid #8ab4ff;
-    border-color: #4285f4;
-}
-
-.actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin: 20px 0;
-    flex-wrap: wrap;
-}
-
-button {
-    border: 0;
-    border-radius: 9px;
-    padding: 11px 18px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.save {
-    background: #1677ff;
-    color: white;
-}
-
-.clear {
-    background: #e9edf3;
-    color: #172033;
-}
-
-@media(max-width:800px) {
-    .months {
-        grid-template-columns: repeat(2, 1fr);
+@keyframes moveLight{
+    0%{
+        transform:translate(0,0) scale(1);
+    }
+    50%{
+        transform:translate(150px,80px) scale(1.25);
+    }
+    100%{
+        transform:translate(-100px,150px) scale(.9);
     }
 }
 
-@media(max-width:550px) {
-    .summary {
-        grid-template-columns: 1fr;
+/* sao */
+
+.stars{
+    position:absolute;
+    inset:0;
+    background-image:
+        radial-gradient(circle,#fff 1px,transparent 1px),
+        radial-gradient(circle,#bde7ff 1px,transparent 1px),
+        radial-gradient(circle,#ffb8ed 1px,transparent 1px);
+    background-size:
+        80px 80px,
+        130px 130px,
+        190px 190px;
+    background-position:
+        0 0,
+        30px 40px,
+        70px 100px;
+    animation:starsMove 20s linear infinite;
+    opacity:.7;
+}
+
+@keyframes starsMove{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(100px);
+    }
+}
+
+/* các vệt sáng */
+
+.shooting-star{
+    position:absolute;
+    width:180px;
+    height:2px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #fff,
+        transparent
+    );
+    transform:rotate(-35deg);
+    animation:shoot 7s infinite;
+    opacity:0;
+}
+
+.shooting-star:nth-child(1){
+    top:20%;
+    left:10%;
+}
+
+.shooting-star:nth-child(2){
+    top:40%;
+    left:70%;
+    animation-delay:3s;
+}
+
+.shooting-star:nth-child(3){
+    top:70%;
+    left:40%;
+    animation-delay:5s;
+}
+
+@keyframes shoot{
+    0%,70%{
+        opacity:0;
+        transform:translate(0,0) rotate(-35deg);
     }
 
-    .months {
-        grid-template-columns: 1fr;
+    75%{
+        opacity:1;
     }
 
-    .container {
-        padding: 12px;
+    100%{
+        opacity:0;
+        transform:translate(500px,300px) rotate(-35deg);
     }
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:25px;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.header h1{
+    margin:0;
+    font-size:34px;
+    background:linear-gradient(
+        90deg,
+        #fff,
+        #c879ff,
+        #69c7ff,
+        #fff
+    );
+    background-size:300%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:titleMove 5s linear infinite;
+}
+
+@keyframes titleMove{
+    0%{background-position:0%}
+    100%{background-position:300%}
+}
+
+.header p{
+    color:#b9c2e8;
+    margin-top:8px;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+    padding:20px;
+    border-radius:18px;
+
+    background:rgba(10,15,45,.62);
+    border:1px solid rgba(122,157,255,.35);
+
+    backdrop-filter:blur(15px);
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.3),
+        inset 0 0 30px rgba(90,110,255,.08);
+
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#9c7cff;
+    box-shadow:
+        0 15px 50px rgba(100,80,255,.25);
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    background:#8b5cff;
+    filter:blur(80px);
+    opacity:.15;
+    right:-50px;
+    top:-50px;
+}
+
+.card small{
+    color:#aeb8e8;
+}
+
+.card strong{
+    display:block;
+    margin-top:8px;
+    font-size:25px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:20px 0;
+}
+
+button{
+    border:1px solid rgba(255,255,255,.2);
+    padding:12px 20px;
+    border-radius:10px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+    backdrop-filter:blur(10px);
+}
+
+.save{
+    background:rgba(34,116,255,.55);
+}
+
+.clear{
+    background:rgba(255,50,100,.25);
+}
+
+button:hover{
+    transform:translateY(-2px) scale(1.03);
+    box-shadow:0 8px 25px rgba(90,120,255,.3);
+}
+
+/* =========================
+   MONTHS
+========================= */
+
+.months{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.month{
+    padding:17px;
+    border-radius:16px;
+
+    background:rgba(8,13,38,.68);
+    border:1px solid rgba(93,137,255,.4);
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.3),
+        inset 0 0 25px rgba(60,100,255,.05);
+
+    transition:.3s;
+}
+
+.month:hover{
+    transform:translateY(-4px);
+    border-color:#8b7cff;
+}
+
+.month h2{
+    margin:0 0 10px;
+    font-size:18px;
+    color:#bdaeff;
+}
+
+.total{
+    margin-bottom:12px;
+    color:#8dffbe;
+    font-weight:bold;
+}
+
+.days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+}
+
+.day{
+    text-align:center;
+}
+
+.day label{
+    display:block;
+    font-size:10px;
+    color:#8995c4;
+    margin-bottom:3px;
+}
+
+.day input{
+    width:100%;
+    min-width:0;
+    padding:7px 2px;
+
+    color:#fff;
+    background:rgba(3,8,25,.7);
+
+    border:1px solid rgba(102,142,255,.3);
+    border-radius:6px;
+
+    text-align:center;
+    font-size:11px;
+
+    transition:.2s;
+}
+
+.day input:focus{
+    outline:none;
+    border-color:#9b6cff;
+    box-shadow:
+        0 0 12px rgba(143,99,255,.45);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    text-align:center;
+    margin:30px 0 10px;
+    color:#8f9aca;
+    font-size:13px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:850px){
+
+    .months{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .summary{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .container{
+        padding:12px;
+    }
+
+    .months{
+        grid-template-columns:1fr;
+    }
+
+    .header h1{
+        font-size:25px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
+<!-- NỀN ANIME ĐỘNG -->
+<div class="anime-bg">
+
+    <div class="light one"></div>
+    <div class="light two"></div>
+    <div class="light three"></div>
+
+    <div class="stars"></div>
+
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+
+</div>
+
+
 <div class="container">
 
-<h1>📊 Thống kê tiền năm</h1>
+    <div class="header">
 
-<div class="summary">
+        <h1>✨ THỐNG KÊ TIỀN 12 THÁNG ✨</h1>
 
-    <div class="card">
-        <small>Tổng cả năm</small>
-        <strong id="yearTotal">0 ₫</strong>
+        <p>
+            Quản lý và theo dõi thu nhập mỗi ngày
+        </p>
+
     </div>
 
-    <div class="card">
-        <small>Trung bình / ngày</small>
-        <strong id="dailyAvg">0 ₫</strong>
+
+    <!-- THỐNG KÊ -->
+
+    <div class="summary">
+
+        <div class="card">
+
+            <small>Tổng cả năm</small>
+
+            <strong id="yearTotal">
+                0 ₫
+            </strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>Trung bình / ngày</small>
+
+            <strong id="dailyAvg">
+                0 ₫
+            </strong>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>Tháng cao nhất</small>
+
+            <strong id="bestMonth">
+                -
+            </strong>
+
+        </div>
+
     </div>
 
-    <div class="card">
-        <small>Tháng cao nhất</small>
-        <strong id="bestMonth">-</strong>
+
+    <!-- BUTTON -->
+
+    <div class="actions">
+
+        <button
+            class="save"
+            onclick="saveData()">
+
+            💾 LƯU DỮ LIỆU
+
+        </button>
+
+
+        <button
+            class="clear"
+            onclick="clearData()">
+
+            🗑️ XÓA DỮ LIỆU
+
+        </button>
+
+    </div>
+
+
+    <!-- 12 THÁNG -->
+
+    <div
+        class="months"
+        id="months">
+    </div>
+
+
+    <div class="footer">
+
+        ✨ Dữ liệu được lưu trên trình duyệt của bạn ✨
+
     </div>
 
 </div>
 
-<div class="actions">
-
-    <button class="save" onclick="saveData()">
-        💾 Lưu dữ liệu
-    </button>
-
-    <button class="clear" onclick="clearData()">
-        🗑️ Xóa toàn bộ
-    </button>
-
-</div>
-
-<div class="months" id="months"></div>
-
-</div>
 
 <script>
 
 const monthNames = [
+
     "Tháng 1",
     "Tháng 2",
     "Tháng 3",
@@ -208,62 +553,98 @@ const monthNames = [
     "Tháng 10",
     "Tháng 11",
     "Tháng 12"
+
 ];
 
-const monthsEl = document.getElementById("months");
 
-function money(number) {
+const monthsEl =
+    document.getElementById("months");
 
-    return new Intl.NumberFormat("vi-VN")
-        .format(number) + " ₫";
 
-}
+function money(number){
 
-function daysInMonth(month) {
-
-    return new Date(2026, month + 1, 0).getDate();
+    return new Intl.NumberFormat(
+        "vi-VN"
+    ).format(number) + " ₫";
 
 }
 
-function build() {
+
+function daysInMonth(month){
+
+    return new Date(
+        2026,
+        month + 1,
+        0
+    ).getDate();
+
+}
+
+
+/* TẠO 12 THÁNG */
+
+function build(){
 
     monthsEl.innerHTML = "";
 
-    monthNames.forEach((name, month) => {
 
-        const box = document.createElement("div");
+    monthNames.forEach(
+        (name,month)=>{
+
+        const box =
+            document.createElement("div");
 
         box.className = "month";
 
+
         box.innerHTML = `
-            <h2>${name}</h2>
+
+            <h2>
+                ${name}
+            </h2>
 
             <div class="total">
+
                 Tổng:
                 <span id="total-${month}">
                     0 ₫
                 </span>
+
             </div>
 
-            <div class="days" id="days-${month}"></div>
+            <div
+                class="days"
+                id="days-${month}">
+            </div>
+
         `;
+
 
         monthsEl.appendChild(box);
 
-        const days = box.querySelector(".days");
 
-        for (
-            let day = 1;
-            day <= daysInMonth(month);
+        const days =
+            box.querySelector(".days");
+
+
+        for(
+            let day=1;
+            day<=daysInMonth(month);
             day++
-        ) {
+        ){
 
-            const wrap = document.createElement("div");
+            const wrap =
+                document.createElement("div");
+
 
             wrap.className = "day";
 
+
             wrap.innerHTML = `
-                <label>${day}</label>
+
+                <label>
+                    ${day}
+                </label>
 
                 <input
                     type="number"
@@ -273,7 +654,9 @@ function build() {
                     data-day="${day}"
                     placeholder="0"
                 >
+
             `;
+
 
             days.appendChild(wrap);
 
@@ -281,11 +664,18 @@ function build() {
 
     });
 
-    document.querySelectorAll("input").forEach(input => {
 
-        input.addEventListener("input", update);
+    document
+        .querySelectorAll("input")
+        .forEach(input=>{
 
-    });
+            input.addEventListener(
+                "input",
+                update
+            );
+
+        });
+
 
     loadData();
 
@@ -293,36 +683,52 @@ function build() {
 
 }
 
-function update() {
+
+/* TÍNH TOÁN */
+
+function update(){
 
     let year = 0;
+
     let count = 0;
 
     let totals = [];
 
-    for (let month = 0; month < 12; month++) {
+
+    for(
+        let month=0;
+        month<12;
+        month++
+    ){
 
         let total = 0;
+
 
         document
             .querySelectorAll(
                 `input[data-month="${month}"]`
             )
-            .forEach(input => {
+            .forEach(input=>{
 
-                const value = Number(input.value) || 0;
+                const value =
+                    Number(input.value) || 0;
+
 
                 total += value;
 
-                if (input.value !== "") {
+
+                if(input.value !== ""){
                     count++;
                 }
 
             });
 
+
         document.getElementById(
             `total-${month}`
-        ).textContent = money(total);
+        ).textContent =
+            money(total);
+
 
         totals.push(total);
 
@@ -330,56 +736,85 @@ function update() {
 
     }
 
+
     document.getElementById(
         "yearTotal"
-    ).textContent = money(year);
+    ).textContent =
+        money(year);
+
 
     document.getElementById(
         "dailyAvg"
-    ).textContent = money(
-        count ? year / count : 0
-    );
+    ).textContent =
+        money(
+            count
+            ? year / count
+            : 0
+        );
 
-    const max = Math.max(...totals);
+
+    const max =
+        Math.max(...totals);
+
 
     document.getElementById(
         "bestMonth"
     ).textContent =
+
         max > 0
-        ? `${monthNames[totals.indexOf(max)]} — ${money(max)}`
+
+        ? `${monthNames[
+            totals.indexOf(max)
+          ]} — ${money(max)}`
+
         : "-";
 
 }
 
-function saveData() {
+
+/* LƯU */
+
+function saveData(){
 
     const data = {};
 
-    document.querySelectorAll("input").forEach(input => {
 
-        if (input.value !== "") {
+    document
+        .querySelectorAll("input")
+        .forEach(input=>{
 
-            const key =
-                input.dataset.month +
-                "-" +
-                input.dataset.day;
+            if(input.value !== ""){
 
-            data[key] = input.value;
+                const key =
+                    input.dataset.month +
+                    "-" +
+                    input.dataset.day;
 
-        }
 
-    });
+                data[key] =
+                    input.value;
+
+            }
+
+        });
+
 
     localStorage.setItem(
         "moneyStats2026",
         JSON.stringify(data)
     );
 
-    alert("Đã lưu dữ liệu!");
+
+    alert(
+        "✅ Đã lưu dữ liệu!"
+    );
 
 }
 
-function loadData() {
+
+/* LOAD */
+
+function loadData(){
 
     const data =
         JSON.parse(
@@ -388,45 +823,59 @@ function loadData() {
             ) || "{}"
         );
 
-    document.querySelectorAll("input").forEach(input => {
 
-        const key =
-            input.dataset.month +
-            "-" +
-            input.dataset.day;
+    document
+        .querySelectorAll("input")
+        .forEach(input=>{
 
-        if (data[key] !== undefined) {
+            const key =
+                input.dataset.month +
+                "-" +
+                input.dataset.day;
 
-            input.value = data[key];
 
-        }
+            if(
+                data[key] !== undefined
+            ){
 
-    });
+                input.value =
+                    data[key];
+
+            }
+
+        });
 
 }
 
-function clearData() {
 
-    if (
+/* XÓA */
+
+function clearData(){
+
+    if(
         confirm(
             "Bạn có chắc muốn xóa toàn bộ dữ liệu?"
         )
-    ) {
+    ){
 
         localStorage.removeItem(
             "moneyStats2026"
         );
 
-        document.querySelectorAll("input")
-            .forEach(input => {
+
+        document
+            .querySelectorAll("input")
+            .forEach(input=>{
                 input.value = "";
             });
+
 
         update();
 
     }
 
 }
+
 
 build();
 
